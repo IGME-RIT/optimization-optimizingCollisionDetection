@@ -87,132 +87,132 @@ int main(){
 
 #pragma endregion Setup for the rest of the section.
 
-//#pragma region TEST_ONE
-//
-//	// You'll notice throughout this code there are references to the Helper namespace.
-//	// I wrote just a couple of very very simple static helper functions so I could
-//	// properly randomly generate data, as well as easily start and stop the timer I was
-//	// using.  If you want to see what's in helper go to HelperFunctions.h
-//	// If you'd like to use Visual Studio Profiler for your tests instead feel free to.
-//	// I also suggest running in release when you're not using breakpoints or debugging
-//	// as sometimes debug mode tends to throw some stuff in that messes with your results.
-//	// To run in release click on the Visual Studio's menu at the top of the screen
-//	// Debug->Start Without Debugging, or press ctrl-F5
-//	Helper::StartTimer();
-//	
-//	// In order to get statistically significant results we'll need to run this code
-//	// a large number of times to exacerbate any differences.  I set the number of iterations
-//	// to 1000 tests, and then the number of circles to do collisions of to 1000.  If you'd
-//	// like to change these values to see what happens go to Settings.h
-//	for (int test = 0; test < ITERATIONS; ++test){
-//		// This code is fairly basic.  We just update each circle, and check if each
-//		// circle is colliding with every other circle.  We also don't need to test if each
-//		// circle is colliding with itself, and we don't need to test ones we've already
-//		// tested, so this array gets filled out in only the top right diagonal.
-//		// Technically we should be using smaller arrays for each increase in i, but
-//		// since that's not the emphasis of what we're optimizing we'll use the same
-//		// size of array for every test in this series.
-//
-//
-//		// Let's go into BasicCircle.h and take a look around.
-//		for (int i = 0; i < NUM_CIRCLES; ++i){
-//			basicCircles[i].Update();
-//			for (int j = i + 1; j < NUM_CIRCLES; ++j){
-//				isCollided[i][j] = basicCircles[i].CheckForCollision(basicCircles[j]);
-//				
-//			}
-//		}
-//	}
-//
-//	float timeOne = Helper::StopTimer();
-//	std::printf("Test One Complete. \n");
-//
-//#pragma endregion Basic test of non-optimized code.  Base for everything else.
-//
-//#pragma region TEST_TWO
-//
-//	// The second test doesn't optimize much.  In fact there's only really one change.
-//	// Go into OptimizedCircle.cpp to see it.
-//	Helper::StartTimer();
-//	for (int test = 0; test < ITERATIONS; ++test){ 
-//		for (int i = 0; i < NUM_CIRCLES; ++i){
-//			optimizedCircles[i].Update();
-//			for (int j = i + 1; j < NUM_CIRCLES; ++j){
-//				isCollided[i][j] = optimizedCircles[i].CheckForCollision(optimizedCircles + j);
-//			}
-//		}
-//	}
-//
-//	float timeTwo = Helper::StopTimer();
-//	std::printf("Test Two Complete. \n");
-//
-//#pragma endregion Test showing off the difference passing by pointer or reference can make.
-//
-//#pragma region TEST_THREE
-//	Helper::StartTimer();
-//
-//	// Test three makes a slightly more noticeable change.  Go into MoreOptimizedCircle.cpp.
-//	for (int test = 0; test < ITERATIONS; ++test){ 
-//		for (int i = 0; i < NUM_CIRCLES; ++i){
-//			moreOptimizedCircles[i].Update();
-//			for (int j = i + 1; j < NUM_CIRCLES; ++j){
-//				isCollided[i][j] = moreOptimizedCircles[i].CheckForCollision(moreOptimizedCircles + j);
-//			}
-//		}
-//	}
-//
-//	float timeThree = Helper::StopTimer();
-//	std::printf("Test Three Complete. \n");
-//
-//#pragma endregion Test showing off the advantage of removing store calls and simplifying code.
-//
-//#pragma region TEST_FOUR
-//
-//	// Right away it's obvious that this test makes a big change.
-//	// Instead of having our loop outside calling the functions, we're looping through the data
-//	// inside of the functions.  Go to LoopOptimizedCircles.h to see how we handled the data.
-//	Helper::StartTimer();
-//	for (int test = 0; test < ITERATIONS; ++test){
-//		loopOptimizedCircles.Update();
-//		loopOptimizedCircles.CheckForCollisions();
-//	}
-//
-//	float timeFour = Helper::StopTimer();
-//	std::printf("Test Four Complete. \n");
-//
-//#pragma endregion Test showing off the advantage of pulling operations out of loops.
-//
-//#pragma region TEST_FIVE
-//	Helper::StartTimer();
-//
-//	// At first glance everything seems the same, but this is one of our biggest speedups.
-//	// This optimization is one that any programmer, high level or low level, should be aware of
-//	// and consider using.  Go to DataOptimizedCircle.h to see what's happening.
-//	for (int test = 0; test < ITERATIONS; ++test){ 
-//		dataOptimizedCircles.Update();
-//		dataOptimizedCircles.CheckForCollisions();
-//	}
-//
-//	float timeFive = Helper::StopTimer();
-//	std::printf("Test Five Complete. \n");
-//
-//#pragma endregion Test showing off the difference between SOA and AOS data layout.
-//
-//#pragma region TEST_SIX
-//
-//	Helper::StartTimer();
-//
-//	//Everything's inside the code really, 
-//	for (int test = 0; test < ITERATIONS; ++test){ 
-//
-//		simdOptimizedCircles.Update();
-//		simdOptimizedCircles.CheckForCollisions();
-//	}
-//
-//	float timeSix = Helper::StopTimer();
-//	std::printf("Test Six Complete. \n");
-//
-//#pragma endregion Test using SIMD operations.
+#pragma region TEST_ONE
+
+	// You'll notice throughout this code there are references to the Helper namespace.
+	// I wrote just a couple of very very simple static helper functions so I could
+	// properly randomly generate data, as well as easily start and stop the timer I was
+	// using.  If you want to see what's in helper go to HelperFunctions.h
+	// If you'd like to use Visual Studio Profiler for your tests instead feel free to.
+	// I also suggest running in release when you're not using breakpoints or debugging
+	// as sometimes debug mode tends to throw some stuff in that messes with your results.
+	// To run in release click on the Visual Studio's menu at the top of the screen
+	// Debug->Start Without Debugging, or press ctrl-F5
+	Helper::StartTimer();
+	
+	// In order to get statistically significant results we'll need to run this code
+	// a large number of times to exacerbate any differences.  I set the number of iterations
+	// to 1000 tests, and then the number of circles to do collisions of to 1000.  If you'd
+	// like to change these values to see what happens go to Settings.h
+	for (int test = 0; test < ITERATIONS; ++test){
+		// This code is fairly basic.  We just update each circle, and check if each
+		// circle is colliding with every other circle.  We also don't need to test if each
+		// circle is colliding with itself, and we don't need to test ones we've already
+		// tested, so this array gets filled out in only the top right diagonal.
+		// Technically we should be using smaller arrays for each increase in i, but
+		// since that's not the emphasis of what we're optimizing we'll use the same
+		// size of array for every test in this series.
+
+
+		// Let's go into BasicCircle.h and take a look around.
+		for (int i = 0; i < NUM_CIRCLES; ++i){
+			basicCircles[i].Update();
+			for (int j = i + 1; j < NUM_CIRCLES; ++j){
+				isCollided[i][j] = basicCircles[i].CheckForCollision(basicCircles[j]);
+				
+			}
+		}
+	}
+
+	float timeOne = Helper::StopTimer();
+	std::printf("Test One Complete. \n");
+
+#pragma endregion Basic test of non-optimized code.  Base for everything else.
+
+#pragma region TEST_TWO
+
+	// The second test doesn't optimize much.  In fact there's only really one change.
+	// Go into OptimizedCircle.cpp to see it.
+	Helper::StartTimer();
+	for (int test = 0; test < ITERATIONS; ++test){ 
+		for (int i = 0; i < NUM_CIRCLES; ++i){
+			optimizedCircles[i].Update();
+			for (int j = i + 1; j < NUM_CIRCLES; ++j){
+				isCollided[i][j] = optimizedCircles[i].CheckForCollision(optimizedCircles + j);
+			}
+		}
+	}
+
+	float timeTwo = Helper::StopTimer();
+	std::printf("Test Two Complete. \n");
+
+#pragma endregion Test showing off the difference passing by pointer or reference can make.
+
+#pragma region TEST_THREE
+	Helper::StartTimer();
+
+	// Test three makes a slightly more noticeable change.  Go into MoreOptimizedCircle.cpp.
+	for (int test = 0; test < ITERATIONS; ++test){ 
+		for (int i = 0; i < NUM_CIRCLES; ++i){
+			moreOptimizedCircles[i].Update();
+			for (int j = i + 1; j < NUM_CIRCLES; ++j){
+				isCollided[i][j] = moreOptimizedCircles[i].CheckForCollision(moreOptimizedCircles + j);
+			}
+		}
+	}
+
+	float timeThree = Helper::StopTimer();
+	std::printf("Test Three Complete. \n");
+
+#pragma endregion Test showing off the advantage of removing store calls and simplifying code.
+
+#pragma region TEST_FOUR
+
+	// Right away it's obvious that this test makes a big change.
+	// Instead of having our loop outside calling the functions, we're looping through the data
+	// inside of the functions.  Go to LoopOptimizedCircles.h to see how we handled the data.
+	Helper::StartTimer();
+	for (int test = 0; test < ITERATIONS; ++test){
+		loopOptimizedCircles.Update();
+		loopOptimizedCircles.CheckForCollisions();
+	}
+
+	float timeFour = Helper::StopTimer();
+	std::printf("Test Four Complete. \n");
+
+#pragma endregion Test showing off the advantage of pulling operations out of loops.
+
+#pragma region TEST_FIVE
+	Helper::StartTimer();
+
+	// At first glance everything seems the same, but this is one of our biggest speedups.
+	// This optimization is one that any programmer, high level or low level, should be aware of
+	// and consider using.  Go to DataOptimizedCircle.h to see what's happening.
+	for (int test = 0; test < ITERATIONS; ++test){ 
+		dataOptimizedCircles.Update();
+		dataOptimizedCircles.CheckForCollisions();
+	}
+
+	float timeFive = Helper::StopTimer();
+	std::printf("Test Five Complete. \n");
+
+#pragma endregion Test showing off the difference between SOA and AOS data layout.
+
+#pragma region TEST_SIX
+
+	Helper::StartTimer();
+
+	//Everything's inside the code really, 
+	for (int test = 0; test < ITERATIONS; ++test){ 
+
+		simdOptimizedCircles.Update();
+		simdOptimizedCircles.CheckForCollisions();
+	}
+
+	float timeSix = Helper::StopTimer();
+	std::printf("Test Six Complete. \n");
+
+#pragma endregion Test using SIMD operations.
 
 #pragma region TEST_SEVEN
 	Helper::StartTimer();
@@ -226,17 +226,17 @@ int main(){
 	std::printf("Test Seven Complete. \n");
 #pragma endregion Test using inline assembly for optimization.
 
-	//std::printf("\nBasic Circle Code: %f seconds.\n", timeOne); // Supports ~750 circles at 60FPS
-	//// 1.00x
-	//std::printf("Passing By Pointer: %f seconds.\n", timeTwo); // Supports ~1000 circles at 60FPS
-	//// 1.62x
-	//std::printf("Minimized Code: %f seconds.\n", timeThree); // supports ~1125 circles at 60FPS
-	//// 2.12x
-	//std::printf("Removed Function Calls from Loop: %f seconds.\n", timeFour); // supports ~1500 circles at 60FPS
-	//// 3.81x
-	//std::printf("SOA instead of AOS: %f seconds.\n", timeFive); // supports ~2300 circles at 60FPS
-	//// 8.06x (EIGHT TIMES SPEEDUP FOR BASIC OPTIMIZATION PATTERNS)
-	//std::printf("SIMD ops: %f seconds.\n", timeSix); // supports ~3400 circles at 60FPS
+	std::printf("\nBasic Circle Code: %f seconds.\n", timeOne); // Supports ~750 circles at 60FPS
+	// 1.00x
+	std::printf("Passing By Pointer: %f seconds.\n", timeTwo); // Supports ~1000 circles at 60FPS
+	// 1.62x
+	std::printf("Minimized Code: %f seconds.\n", timeThree); // supports ~1125 circles at 60FPS
+	// 2.12x
+	std::printf("Removed Function Calls from Loop: %f seconds.\n", timeFour); // supports ~1500 circles at 60FPS
+	// 3.81x
+	std::printf("SOA instead of AOS: %f seconds.\n", timeFive); // supports ~2300 circles at 60FPS
+	// 8.06x (EIGHT TIMES SPEEDUP FOR BASIC OPTIMIZATION PATTERNS)
+	std::printf("SIMD ops: %f seconds.\n", timeSix); // supports ~3400 circles at 60FPS
 	// 12.0x (You said something about SIMD being too complicated to bother with?)
 	std::printf("Assembly optimized: %f seconds.\n", timeSeven); // supports ~8300 circles at 60FPS
 	// 138.83x (Okay even I was surprised at this one.  That's just nuts.)

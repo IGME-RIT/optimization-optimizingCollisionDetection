@@ -242,7 +242,7 @@ __m128 rad = _mm_load1_ps(radius + i);
 00CBA10F  mov         ecx, dword ptr[eax + 14h]
 00CBA112  mov         edx, dword ptr[ebp - 14h]
 00CBA115  movss       xmm0, dword ptr[ecx + edx * 4] //Sure why not.  Let's move the 3 variables we are going
-00CBA11A  shufps      xmm0, xmm0, 0 //To be using every single time in the inner loop out of the loop.
+00CBA11A  shufps      xmm0, xmm0, 0 //to be using every single time in the inner loop out of the loop.
 00CBA11E  movaps      xmmword ptr[ebp - 320h], xmm0  //Who need xmm1 through xmm7 anyway?
 00CBA125  movaps      xmm0, xmmword ptr[ebp - 320h]
 00CBA12C  movaps      xmmword ptr[ebp - 70h], xmm0 //xmm0 is where the real fun happens, apparently
