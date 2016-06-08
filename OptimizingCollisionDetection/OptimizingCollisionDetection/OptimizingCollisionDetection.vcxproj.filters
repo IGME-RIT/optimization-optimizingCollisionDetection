@@ -39,6 +39,9 @@
     <ClCompile Include="AssemblyOptimizedCircles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AVXOptimizedCircles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicCircle.h">
@@ -66,6 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AssemblyOptimizedCircles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AVXOptimizedCircles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

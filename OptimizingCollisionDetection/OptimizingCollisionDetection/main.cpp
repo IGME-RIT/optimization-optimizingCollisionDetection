@@ -56,6 +56,7 @@ https://msdn.microsoft.com/en-us/library/t467de55(v=vs.90).aspx
 #include "DataOptimizedCircles.h"
 #include "SIMDOptimizedCircles.h"
 #include "AssemblyOptimizedCircles.h"
+#include "AVXOptimizedCircles.h"
 #include "HelperFunctions.h"
 #include "Settings.h"
 
@@ -73,6 +74,7 @@ int main(){
 	DataOptimizedCircles dataOptimizedCircles;
 	SIMDOptimizedCircles simdOptimizedCircles;
 	AssemblyOptimizedCircles assemblyOptimizedCircles;
+	AVXOptimizedCircles avxOptimizedCircles;
 
 	// This is just setting up a jagged array to store the results in.  In an actual
 	// simulation this would let you resolve collisions after the fact, so I figured it
@@ -226,6 +228,30 @@ int main(){
 	std::printf("Test Seven Complete. \n");
 #pragma endregion Test using inline assembly for optimization.
 
+
+// The following test will not run on processors older than 2011 for sure.
+// Since the chance of your computer supporting it is <100%, I've commented out the test,
+// and the code in AVXOptimizedCircles.cpp that will prevent your code from running.
+// If you want to test it out go into AVXOptimizedCircles.cpp and uncomment the code in Update()
+// and CheckCollisions().  It uses AVX (Advanced Vector Extensions) which is basically SSE with
+// 256 bit registers instead of 128 bit registers.  So yes, 8 floats at a time.  Pretty freaking cool.
+
+// You also might need to right click your project file Properties->Configuration Properties->C/C++->
+// Code Generation->Enable Enhanced Instruction Set and set to AVX.  Maybe not, I'm not sure how the
+// project file will transfer over github.
+
+//#pragma region TEST_EIGHT
+//	Helper::StartTimer();
+//	// Just head into AVXOptimizedCircles.cpp.
+//	for (int test = 0; test < ITERATIONS; ++test){
+//		avxOptimizedCircles.Update();
+//		avxOptimizedCircles.CheckForCollisions();
+//	}
+//
+//	float timeEight = Helper::StopTimer();
+//	std::printf("Test Eight Complete. \n");
+//#pragma endregion Test using inline assembly with AVX operations for optimization.
+
 	std::printf("\nBasic Circle Code: %f seconds.\n", timeOne); // Supports ~750 circles at 60FPS
 	// 1.00x
 	std::printf("Passing By Pointer: %f seconds.\n", timeTwo); // Supports ~1000 circles at 60FPS
@@ -240,7 +266,8 @@ int main(){
 	// 12.0x (You said something about SIMD being too complicated to bother with?)
 	std::printf("Assembly optimized: %f seconds.\n", timeSeven); // supports ~8300 circles at 60FPS
 	// 138.83x (Okay even I was surprised at this one.  That's just nuts.)
-
+	//std::printf("AVX optimized: %f seconds.\n", timeEight); // supports ~8700 circles at 60FPS
+	// ~256x (Oh look a nice round number.  Turns out doing 8 at a time is better than 4 at a time)
 	std::printf("\nPress Enter to Continue.");
 	_getch();
 

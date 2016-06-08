@@ -43,6 +43,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -54,6 +55,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -63,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyOptimizedCircles.cpp" />
+    <ClCompile Include="AVXOptimizedCircles.cpp" />
     <ClCompile Include="BasicCircle.cpp" />
     <ClCompile Include="DataOptimizedCircles.cpp" />
     <ClCompile Include="LoopOptimizedCircles.cpp" />
@@ -73,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssemblyOptimizedCircles.h" />
+    <ClInclude Include="AVXOptimizedCircles.h" />
     <ClInclude Include="BasicCircle.h" />
     <ClInclude Include="DataOptimizedCircles.h" />
     <ClInclude Include="HelperFunctions.h" />
