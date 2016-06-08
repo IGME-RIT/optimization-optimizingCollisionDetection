@@ -173,7 +173,7 @@ void AssemblyOptimizedCircles::Update(){
 
 	__asm{
 		mov edi, dword ptr[this]; //edi will contain this.
-		mov esi, 0; //esi will be used as our counter.
+		xor esi, esi; //esi will be used as our counter.  Set it to 0.
 
 		mov eax, [edi].xPosition;//eax is the xPosition Register
 		mov ebx, [edi].xVelocity;//ebx is the xVelocity Register
@@ -183,16 +183,15 @@ void AssemblyOptimizedCircles::Update(){
 		MovementLoop: //Beginning of a do{...esi+=16}while(esi < NUM_CIRCLES*4) loop.
 
 		movaps xmm0, xmmword ptr[eax + esi];//Move the xPosition at index esi into the xmm0 register.
+		movaps xmm1, xmmword ptr[ecx + esi];//Move the yPosition at index esi into xmm1
 		addps xmm0, xmmword ptr[ebx + esi];//Add to the xmm0 register the floats stored at xVelocity + esi.
+		addps xmm1, xmmword ptr[edx + esi];//Adds to xmm1 the float stored at yVelocity + esi
 		movaps xmmword ptr[eax + esi], xmm0;//Store the xmm0 register into xPosition + esi
+		movaps xmmword ptr[ecx + esi], xmm1;//Stores xmm1 to yPosition + esi
 
 		// Now it seemed as if using both registers was faster than just one, the CPU might
 		// be parallelizing this to some extent.  I'm unsure.  No negative to leaving it this
 		// way though, only a potential positive.
-
-		movaps xmm1, xmmword ptr[ecx + esi];//Move the yPosition at index esi into xmm1
-		addps xmm1, xmmword ptr[edx + esi];//Adds to xmm1 the float stored at yVelocity + esi
-		movaps xmmword ptr[ecx + esi], xmm1;//Stores xmm1 to yPosition + esi
 
 		// So remember all the stuff that happened in that loop?  These six instructions
 		// accomplished the exact same thing.Took 0.4 seconds off of SIMD's 2.4 at the time.
@@ -350,7 +349,7 @@ do {
 		mov ecx, [edi].yPosition;//store yPosition in ecx
 		mov edx, [edi].radius;//store radius in edx
 		mov edi, [edi].isCollided;//store isCollided in edi, since we don't need this anymore actually.
-		mov esi, 0;//0 out esi which will be our "i" counter.
+		xor esi, esi;//0 out esi which will be our "i" counter.
 
 	OuterLoop:
 
@@ -358,12 +357,10 @@ do {
 		and al, 0xF0;//make sure it's a multiple of four, round down.
 
 		movss xmm0, dword ptr[ebx + esi]//Okay, see, this is a lot faster to shuffle.
-		shufps xmm0, xmm0, 0;
-
 		movss xmm1, dword ptr[ecx + esi];//Significantly fewer instructions.
-		shufps xmm1, xmm1, 0;
-
 		movss xmm2, dword ptr[edx + esi];//No storing really required.
+		shufps xmm0, xmm0, 0;
+		shufps xmm1, xmm1, 0;
 		shufps xmm2, xmm2, 0;
 
 
@@ -379,13 +376,14 @@ do {
 		// Note that since we stored the xPosition, yPosition, and zPosition into buffers without
 		// worrying about temp storage we could really really quickly load the right ones here.
 
-		subps xmm3, xmm0;//x2 - x1
-		mulps xmm3, xmm3;//(x2-x1)^2
+		subps xmm3, xmm0;//(x2-x1)
 		subps xmm4, xmm1;//(y2-y1)
+		addps xmm5, xmm2;//(r1+r2)
+		mulps xmm3, xmm3;//(x2-x1)^2
 		mulps xmm4, xmm4;//(y2-y1)^2
-		addps xmm3, xmm4;//(x2-x1)^2 + (y2-y1)^2
-		addps xmm5, xmm2;//r1 + r2
 		mulps xmm5, xmm5;//(r1 + r2)^2
+		addps xmm3, xmm4;//(x2-x1)^2 + (y2-y1)^2
+		
 		cmpltps xmm3, xmm5;//(x2-x1)^2 + (y2-y1)^2 < (r1+r2)^2
 
 		// See?  Not a single load required during the math.  And we still have xmm6 and xmm7 free.
