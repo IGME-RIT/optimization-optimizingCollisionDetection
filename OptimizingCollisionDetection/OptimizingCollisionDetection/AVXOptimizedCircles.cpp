@@ -103,6 +103,9 @@ void AVXOptimizedCircles::Update(){
 }
 
 void AVXOptimizedCircles::CheckForCollisions(){
+	
+	int i = 0;
+
 	/*
 	__asm{
 		mov edi, dword ptr[this];//Move this to edi, edi will store this
@@ -132,7 +135,7 @@ void AVXOptimizedCircles::CheckForCollisions(){
 
 
 		// We don't actually need esi in the program... so this seems okay.
-		push esi; //When you push a register it doesn't seem to get rid of the value in it
+		mov i, esi;
 		mov esi, dword ptr[edi + esi]; //So that means this code should still function.
 		// So from now on esi is the pointer pointing to the current i's isCollided array in the buffer.
 
@@ -160,12 +163,13 @@ void AVXOptimizedCircles::CheckForCollisions(){
 		cmp eax, NUM_CIRCLES * 4;//Multiply j by 4, multiply this by 4.
 		jl CollisionStart;//Jump if less than, yadah yadah.
 
-		pop esi;//Oh hey look it's i again.
+		mov esi, i;
 
 		add esi, 4;//increase i by 1 * 4.
 		cmp esi, NUM_CIRCLES * 4;//*4 for both.
 		jl OuterLoop;
-	}*/
+	}
+	*/
 
 }
 

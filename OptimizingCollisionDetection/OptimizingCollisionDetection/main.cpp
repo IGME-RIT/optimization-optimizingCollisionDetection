@@ -262,12 +262,16 @@ int main(){
 	// 3.81x
 	std::printf("SOA instead of AOS: %f seconds.\n", timeFive); // supports ~2300 circles at 60FPS
 	// 8.06x (EIGHT TIMES SPEEDUP FOR BASIC OPTIMIZATION PATTERNS)
-	std::printf("SIMD ops: %f seconds.\n", timeSix); // supports ~3400 circles at 60FPS
+	//std::printf("SIMD ops: %f seconds.\n", timeSix); // supports ~3400 circles at 60FPS
 	// 12.0x (You said something about SIMD being too complicated to bother with?)
 	std::printf("Assembly optimized: %f seconds.\n", timeSeven); // supports ~8300 circles at 60FPS
 	// 138.83x (Okay even I was surprised at this one.  That's just nuts.)
+
+
 	//std::printf("AVX optimized: %f seconds.\n", timeEight); // supports ~8700 circles at 60FPS
 	// ~256x (Oh look a nice round number.  Turns out doing 8 at a time is better than 4 at a time)
+	
+	
 	std::printf("\nPress Enter to Continue.");
 	_getch();
 

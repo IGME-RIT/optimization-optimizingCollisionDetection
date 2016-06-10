@@ -342,6 +342,7 @@ do {
 // So it's like the compiler has no awareness of XMM1 - XMM7.  However, I do, so let's see
 // how I use them.
 
+int i = 0;
 
 	__asm{
 		mov edi, dword ptr[this];//Move this to edi, edi will store this
@@ -365,7 +366,7 @@ do {
 
 
 		// We don't actually need esi in the program... so this seems okay.
-		push esi; //When you push a register it doesn't seem to get rid of the value in it
+		mov i, esi; //When you push a register it doesn't seem to get rid of the value in it
 		mov esi, dword ptr[edi + esi]; //So that means this code should still function.
 		// So from now on esi is the pointer pointing to the current i's isCollided array in the buffer.
 
@@ -394,7 +395,7 @@ do {
 		cmp eax, NUM_CIRCLES * 4;//Multiply j by 4, multiply this by 4.
 		jl CollisionStart;//Jump if less than, yadah yadah.
 
-		pop esi;//Oh hey look it's i again.  Remember what I said about pulling things out of loops?
+		mov esi, i;//Oh hey look it's i again.  Remember what I said about pulling things out of loops?
 		// Before I pulled this push and pop out of the loop this code took 0.26 seconds to run.  After
 		// it went down to 0.19.  Yeah, those sorts of things are important.
 
